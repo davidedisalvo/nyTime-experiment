@@ -5,6 +5,10 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
+     <v-footer class="pa-3">
+    <v-spacer></v-spacer>
+    <div>&copy; {{ new Date().getFullYear() }}</div>
+  </v-footer>
   </div>
 </template>
 
