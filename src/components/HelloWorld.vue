@@ -1,9 +1,9 @@
 <template>
   <div>
     <div>
-      <v-date-picker v-model="picker" reactive="reactive" landscape color="red" @click="getDate()"></v-date-picker>
+      <v-date-picker v-model="picker" reactive="reactive" landscape color="orange" @click="getDate()"></v-date-picker>
     </div>
-    <v-btn @click="getList">Search</v-btn>
+    <v-btn color="orange" @click="getList">Search</v-btn>
   </div>
 </template>
 

@@ -6,7 +6,8 @@ import axios from 'axios'
 
 export default new Vuex.Store({
   state: {
-    books: []
+    books: [],
+    articles: []
   },
   mutations: {
     SET_NEW_LIST(state, payload) {
@@ -39,6 +40,21 @@ export default new Vuex.Store({
         console.log('second call')
 
       }
+    },
+
+    SET_NEW_LIST_ARTICLES(state, payload) {
+      let value = payload.data.response.docs
+      if(state.articles.length < 0) {
+
+        state.articles.push(...value)
+        console.log('first call')
+      } else {
+        state.articles = []
+        state.articles.push(...value)
+
+        console.log('second call')
+
+      }
     }
   },
   actions: {
@@ -49,6 +65,17 @@ export default new Vuex.Store({
         console.log(response)
         commit('SET_NEW_LIST', value)
     })
+    },
+
+    getting_articles({commit, state}, payload) {
+      console.log(payload.query)
+      axios.get('https://api.nytimes.com/svc/search/v2/articlesearch.json?q='+payload.query+'&fq=news_desk:("'+payload.selections+'")&api-key=9J6zrwrvlHJCVne4scXFympyYEGkgmJk')
+      .then(response => {
+        var value = response
+        console.log(response)
+        commit('SET_NEW_LIST_ARTICLES', value)
+    })
+      
     },
 
     defaultBookList({ commit, state}, payload) {

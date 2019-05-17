@@ -2,13 +2,10 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/articles">About</router-link>
     </div>
     <router-view/>
-     <v-footer class="pa-3">
-    <v-spacer></v-spacer>
-    <div>&copy; {{ new Date().getFullYear() }}</div>
-  </v-footer>
+
   </div>
 </template>
 

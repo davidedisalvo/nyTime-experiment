@@ -1,70 +1,70 @@
 <template>
   <div class="home">
     <div>
-      <transition name="fade">
- <v-jumbotron :gradient="gradient" v-if="!showCalendar" dark height="600px" class="jumbotron">
-      <v-container fill-height>
-        <v-layout align-center class="container">
-          <v-flex text-xs-center>
-            <h3 class="display-3" v-if="!showCalendar">NYT Best Sellers Lists</h3>
-          </v-flex>
-          <v-flex v-if="!showCalendar">
-             <p class="search" @click="showCalendar = true">Or serarch by date  <v-icon small>fas fa-arrow-right</v-icon></p>
-          </v-flex>
+      <v-jumbotron color="#222222" dark height="600px" class="jumbotron">
+        <v-container fill-height>
+          <v-layout align-center class="container">
+          <transition name="fade">
 
-        </v-layout>
-      </v-container>
-    </v-jumbotron>
+            <v-flex text-xs-center class="jumbotron-container">
+              <h3 class="display-3" v-if="!showCalendar">NYT Best Sellers Lists</h3>
+                <v-btn @click="showCalendar = true" v-if="!showCalendar" color="orange darken-2" dark>
+                  Search by date<v-icon small class="ml-3">fas fa-arrow-right</v-icon>
+                </v-btn>
+            </v-flex>
+            </transition>
 
-      </transition>
-   
-    <transition name="slide-left">
-      <v-flex text-xs-center v-if="showCalendar" class="calendar" >
-          <helloWorld></helloWorld>
-      </v-flex>
-    </transition>
-  </div>
+            <transition name="slide-left">
+              <v-flex text-xs-center v-if="showCalendar" class="calendar" >
+                  <helloWorld></helloWorld>
+              </v-flex>
+            </transition>
+
+          </v-layout>
+        </v-container>
+      </v-jumbotron>
+    </div>
 
 
 
-  <v-layout row wrap class="container-grid">
-    <v-flex xs12 sm6 lg4 v-for='item in showBooks' class="grid-item">
-      <v-card height="100%">
-           <v-alert
-      :value="true"
-      color="red"
-    >
-      {{item.rank}}
-    </v-alert>
-        <p class="rank"></p>
-        <v-img
-        contain
-          :src="item.book_image"
-          aspect-ratio=".75"
-        ></v-img>
+    <v-layout row wrap class="container-grid">
+      <v-flex xs12 sm6 lg4 v-for='item in showBooks' class="grid-item">
+        <v-card height="100%">
+          <v-alert
+            :value="true"
+            color="orange"
+          >
+            {{item.rank}}
+          </v-alert>
+          <p class="rank"></p>
+          <v-img
+          contain
+            :src="item.book_image"
+            aspect-ratio=".75"
+          ></v-img>
 
-        <v-card-title primary-title >
-          <div class='card-body-container'>
-            <h3 class="headline mb-0">{{item.author}}</h3>
-            <div>
-              <h4>{{item.title}}</h4>
-              <p>
-                {{item.description}}
-              </p>
-              
+          <v-card-title primary-title >
+            <div class='card-body-container'>
+              <h3 class="headline mb-0">{{item.author}}</h3>
+              <div>
+                <h4>{{item.title}}</h4>
+                <p>
+                  {{item.description}}
+                </p>
+                
+              </div>
             </div>
-          </div>
-        </v-card-title>
+          </v-card-title>
 
-        <v-card-actions>
-          <a :href="item.amazon_product_url" target="_blank">
-          <v-btn flat color="orange"> Buy now</v-btn>
-          </a>
-          
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+          <v-card-actions>
+            <a :href="item.amazon_product_url" target="_blank">
+            <v-btn flat color="orange"> Buy now</v-btn>
+            </a>
+            
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
@@ -123,8 +123,7 @@ export default {
 
   computed: {
     showBooks() {
-    return this.$store.state.books
-  
+      return this.$store.state.books
     }
   }
 }
@@ -134,12 +133,20 @@ export default {
 
 <style lang="scss" scoped>
 
+.jumbotron-container {
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
 .v-image__image--cover {
   background-size: contain !important;
 }
 
 .v-card {
-  margin: 0 10px;
+  margin: 0 100px;
 }
 
 .grid-item {
@@ -163,33 +170,22 @@ export default {
   transition: opacity .6s ease-out;
 }
 
-.slide-left-enter {
-
-}
 
 .slide-left-enter-active {
  animation: slide-in 1.5s ease-in;
 }
 
-.slide-left-leave {
-
-}
 
 .slide-left-leave-active {
   animation: slide-out 1.5s ease-out forwards;
 }
 
-.slide-left-enter {
 
-}
 
 .slide-left-enter-active {
  animation: slide-in-left 1s ease-in;
 }
 
-.slide-left-leave {
-
-}
 
 .slide-left-leave-active {
   animation: slide-out-left 1s ease-out forwards;
