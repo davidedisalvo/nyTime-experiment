@@ -7,7 +7,7 @@
           <transition name="fade">
 
             <v-flex text-xs-center class="jumbotron-container">
-              <h3 class="display-3" v-if="!showCalendar">NYT Best Sellers Lists</h3>
+              <h3 class="display-3" v-if="!showCalendar">NYT Best Sellers List</h3>
                 <v-btn @click="showCalendar = true" v-if="!showCalendar" color="orange darken-2" dark>
                   Search by date<v-icon small class="ml-3">fas fa-arrow-right</v-icon>
                 </v-btn>
@@ -19,24 +19,26 @@
                   <helloWorld></helloWorld>
               </v-flex>
             </transition>
+           <div class="change-layout"><span @click="changeLayout = true" class="click mr-3"><v-icon small class="click mr-2">fas fa-columns</v-icon>4 cols</span><span @click="changeLayout = false" class="click"><v-icon small class="mr-2">fas fa-columns</v-icon>3 cols</span></div>
 
           </v-layout>
         </v-container>
       </v-jumbotron>
+   
     </div>
 
 
 
     <v-layout row wrap class="container-grid">
-      <v-flex xs12 sm6 lg4 v-for='item in showBooks' class="grid-item">
+      <v-flex xs12 sm6 :lg4="!changeLayout" :lg3="changeLayout" v-for='item in showBooks' class="grid-item">
         <v-card height="100%">
           <v-alert
             :value="true"
             color="orange"
+            class="rank"
           >
             {{item.rank}}
           </v-alert>
-          <p class="rank"></p>
           <v-img
           contain
             :src="item.book_image"
@@ -81,7 +83,8 @@ export default {
     return {
       books: [],
       gradient: 'to top, rgb(34, 32, 34), rgb(140, 133, 142)',
-      showCalendar:false
+      showCalendar:false,
+      changeLayout: false
 
     }
   },
@@ -124,6 +127,10 @@ export default {
   computed: {
     showBooks() {
       return this.$store.state.books
+    },
+
+    fourColumns() {
+      return ''
     }
   }
 }
@@ -132,6 +139,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.change-layout {
+  width: 100%;
+  display: flex;
+}
 
 .jumbotron-container {
   flex-direction: column;
@@ -145,8 +157,14 @@ export default {
   background-size: contain !important;
 }
 
+.v-alert >div{
+
+    font-size: 30px;
+
+}
+
 .v-card {
-  margin: 0 100px;
+  margin: 0 50px;
 }
 
 .grid-item {
@@ -231,6 +249,10 @@ export default {
 
 a {
   text-decoration: none;
+}
+
+.click {
+  cursor: pointer;
 }
 
 
