@@ -1,9 +1,16 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/articles">About</router-link>
-    </div>
+
+     <v-toolbar fixed>
+    <v-toolbar-title><v-btn flat><router-link to="/bookList">Book list: {{this.$store.state.bookList.length}}</router-link></v-btn></v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-sm-and-down">
+      <v-btn flat><router-link to="/">Home</router-link></v-btn>
+      <v-btn flat><router-link to="/articles">About</router-link></v-btn>
+      
+    </v-toolbar-items>
+  </v-toolbar>
+   
     <router-view/>
 
   </div>

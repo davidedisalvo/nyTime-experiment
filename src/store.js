@@ -7,7 +7,8 @@ import axios from 'axios'
 export default new Vuex.Store({
   state: {
     books: [],
-    articles: []
+    articles: [],
+    bookList: []
   },
   mutations: {
     SET_NEW_LIST(state, payload) {
@@ -55,6 +56,25 @@ export default new Vuex.Store({
         console.log('second call')
 
       }
+    },
+
+    SET_CHOOSEN_BOOK_LIST(state, payload) {
+      var arr = state.bookList;
+
+  
+        const { length } = arr;
+        const id = length + 1;
+        const found = arr.some(el => el.link === payload.link);
+        if (!found) arr.push(payload);
+        return arr;
+      
+     
+      
+     
+    
+    
+    
+      
     }
   },
   actions: {
@@ -80,6 +100,10 @@ export default new Vuex.Store({
 
     defaultBookList({ commit, state}, payload) {
       commit('SET_DEFAULT_LIST', payload.data.results.books)
+    },
+
+    choosenBookList({ commit, state}, payload) {
+      commit('SET_CHOOSEN_BOOK_LIST', payload)
     }
   },
   getters: {

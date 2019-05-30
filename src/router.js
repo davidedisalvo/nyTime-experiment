@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Books from './views/Books.vue'
+import BookList from './components/BookList.vue'
+
 
 Vue.use(Router)
 
@@ -12,6 +14,12 @@ export default new Router({
       path: '/',
       name: 'books',
       component: Books
+    },
+
+    {
+      path: '/booklist',
+      name: 'booklist',
+      component: BookList
     },
     {
       path: '/articles',

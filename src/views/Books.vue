@@ -30,8 +30,8 @@
 
 
     <v-layout row wrap class="container-grid">
-      <v-flex xs12 sm6 :lg4="!changeLayout" :lg3="changeLayout" v-for='item in showBooks' class="grid-item">
-        <v-card height="100%">
+      <v-flex xs12 sm4 :lg4="!changeLayout" :lg3="changeLayout" v-for='item in showBooks' class="grid-item">
+        <v-card height="100%" @click="choosenBook(item)">
           <v-alert
             :value="true"
             color="orange"
@@ -43,6 +43,7 @@
           contain
             :src="item.book_image"
             aspect-ratio=".75"
+
           ></v-img>
 
           <v-card-title primary-title >
@@ -121,6 +122,16 @@ export default {
       animate: function() {
           TweenMax
           .to(".container-grid", .9, {x: 0, autoAlpha:1,  ease:Sine.easeIn});
+      },
+      choosenBook(item) {
+        let choosenBooks = {
+          
+          author: item.author,
+          link: item.amazon_product_url,
+          title: item.title,
+        }
+
+        this.$store.dispatch('choosenBookList', choosenBooks)
       }
   },
 
