@@ -20,7 +20,7 @@
     /* global styles */
 </style> 
 
-<style scoped>
+<style lang="scss" scoped>
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -37,6 +37,14 @@
     &.router-link-exact-active {
       color: #42b983;
     }
+  }
+}
+
+.v-btn__content {
+  a {
+    text-decoration: none;
+
+    color: black;
   }
 }
     /* local styles */

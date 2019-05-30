@@ -19,7 +19,7 @@
                   <helloWorld></helloWorld>
               </v-flex>
             </transition>
-           <div class="change-layout"><span @click="changeLayout = true" class="click mr-3"><v-icon small class="click mr-2">fas fa-columns</v-icon>4 cols</span><span @click="changeLayout = false" class="click"><v-icon small class="mr-2">fas fa-columns</v-icon>3 cols</span></div>
+           <div class="change-layout"><span class="mr-3">Change layout</span><span @click="changeLayout = true" class="click mr-3"><v-icon small class="click mr-2">fas fa-columns</v-icon>4 cols</span><span @click="changeLayout = false" class="click"><v-icon small class="mr-2">fas fa-columns</v-icon>3 cols</span></div>
 
           </v-layout>
         </v-container>
@@ -30,7 +30,7 @@
 
 
     <v-layout row wrap class="container-grid">
-      <v-flex xs12 sm4 :lg4="!changeLayout" :lg3="changeLayout" v-for='item in showBooks' class="grid-item">
+      <v-flex xs12 sm6 :lg4="!changeLayout" :lg3="changeLayout" v-for='item in showBooks' class="grid-item">
         <v-card height="100%" @click="choosenBook(item)">
           <v-alert
             :value="true"
@@ -45,11 +45,12 @@
             aspect-ratio=".75"
 
           ></v-img>
-
+          <v-icon medium @click="choosenBook(item, $event)" class="save">{{output}}</v-icon>
           <v-card-title primary-title >
             <div class='card-body-container'>
               <h3 class="headline mb-0">{{item.author}}</h3>
               <div>
+                
                 <h4>{{item.title}}</h4>
                 <p>
                   {{item.description}}
@@ -63,7 +64,6 @@
             <a :href="item.amazon_product_url" target="_blank">
             <v-btn flat color="orange"> Buy now</v-btn>
             </a>
-            
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -85,7 +85,8 @@ export default {
       books: [],
       gradient: 'to top, rgb(34, 32, 34), rgb(140, 133, 142)',
       showCalendar:false,
-      changeLayout: false
+      changeLayout: false,
+      output: 'far fa-star'
 
     }
   },
@@ -123,21 +124,28 @@ export default {
           TweenMax
           .to(".container-grid", .9, {x: 0, autoAlpha:1,  ease:Sine.easeIn});
       },
-      choosenBook(item) {
+      choosenBook(item, event) {
         let choosenBooks = {
-          
           author: item.author,
           link: item.amazon_product_url,
           title: item.title,
         }
 
         this.$store.dispatch('choosenBookList', choosenBooks)
+        
+        var el = event.target;
+      
+        
+
+    
+       
       }
   },
 
   computed: {
     showBooks() {
       return this.$store.state.books
+
     },
 
     fourColumns() {
@@ -154,7 +162,15 @@ export default {
 .change-layout {
   width: 100%;
   display: flex;
+  justify-content: flex-end;
+  margin-right: -100px;
+
+  @media only screen and (max-width: 1263px) {
+    display: none;
+  }
 }
+
+
 
 .jumbotron-container {
   flex-direction: column;
@@ -264,6 +280,12 @@ a {
 
 .click {
   cursor: pointer;
+}
+.save {
+      float: right;
+    margin-top: 40px;
+    background: transparent;
+    -webkit-text-fill-color: orange;
 }
 
 
