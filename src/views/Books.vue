@@ -30,8 +30,8 @@
 
 
     <v-layout row wrap class="container-grid">
-      <v-flex xs12 sm6 :lg4="!changeLayout" :lg3="changeLayout" v-for='item in showBooks' class="grid-item">
-        <v-card height="100%" @click="choosenBook(item)">
+      <v-flex xs12 sm6 :lg4="!changeLayout" :lg3="changeLayout" v-for='(item, index) in showBooks' class="grid-item">
+        <v-card height="100%">
           <v-alert
             :value="true"
             color="orange"
@@ -129,16 +129,16 @@ export default {
           author: item.author,
           link: item.amazon_product_url,
           title: item.title,
+          status: 'clicked'
         }
 
-        this.$store.dispatch('choosenBookList', choosenBooks)
-        
+        console.log(event.target)
         var el = event.target;
-      
-        
+        el.classList.remove('far')
+        el.classList.add('fas')
+        this.$store.dispatch('choosenBookList', choosenBooks)
 
-    
-       
+
       }
   },
 
@@ -286,6 +286,9 @@ a {
     margin-top: 40px;
     background: transparent;
     -webkit-text-fill-color: orange;
+}
+.likeClass {
+  border: 1px solid red;
 }
 
 

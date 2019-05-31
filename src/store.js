@@ -67,14 +67,22 @@ export default new Vuex.Store({
         const found = arr.some(el => el.link === payload.link);
         if (!found) arr.push(payload);
         return arr;
+    },
+
+    removeChoosenBookList(state, payload) {
+
+
+      var arr = state.bookList;
+
+  
+        const { length } = arr;
+        const id = length + 1;
+        const found = arr.some(el => el.link === payload.link);
+        if (found) arr.slice(payload);
+        return arr;
       
+
      
-      
-     
-    
-    
-    
-      
     }
   },
   actions: {
