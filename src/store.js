@@ -11,57 +11,41 @@ export default new Vuex.Store({
     bookList: []
   },
   mutations: {
-    SET_NEW_LIST(state, payload) {
+    SET_LIST(state, payload) {
       let value = payload.data.results.books
 
-      if (state.books.length < 0) {
+      if (!state.books) {
         state.books.push(...value)
-        console.log('first call')
       } else {
-        state.books = []
-        state.books.push(...value)
-
-        console.log('second call')
+        state.books = [...value]
       }
     },
 
-    SET_DEFAULT_LIST(state, payload) {
-      if (state.books.length < 0) {
-        state.books.push(...payload)
-        console.log('first call')
-      } else {
-        state.books = []
-        state.books.push(...payload)
-
-        console.log('second call')
-      }
-    },
-
-    SET_NEW_LIST_ARTICLES(state, payload) {
+    SET_LIST_ARTICLES(state, payload) {
       let value = payload.data.response.docs
       if (state.articles.length < 0) {
         state.articles.push(...value)
-        console.log('first call')
       } else {
         state.articles = []
         state.articles.push(...value)
-
-        console.log('second call')
       }
     },
 
     SET_CHOOSEN_BOOK_LIST(state, payload) {
       // const { length } = state.bookList
-      const found = arr.some(el => el.link === payload.link)
-      if (!found) arr.push(payload)
-      return arr
+      const found = state.bookList.findIndex(el => el.link === payload.link)
+      if (found > -1) {
+        const newBooks = state.bookList.slice(found, 1)
+        state.bookList = newBooks
+      } else state.bookList.push(payload)
+      return state.bookList
     },
 
     removeChoosenBookList(state, payload) {
       // const { length } = state.bookList
-      const found = arr.some(el => el.link === payload.link)
-      if (found) arr.slice(payload)
-      return arr
+      const found = state.bookList.some(el => el.link === payload.link)
+      if (found) state.bookList.slice(payload)
+      return state.bookList
     }
   },
   actions: {
@@ -73,13 +57,11 @@ export default new Vuex.Store({
             '/hardcover-fiction.json?api-key=9J6zrwrvlHJCVne4scXFympyYEGkgmJk'
         )
         .then(response => {
-          console.log(response)
-          commit('SET_NEW_LIST', response)
+          commit('SET_LIST', response)
         })
     },
 
     getting_articles({ commit, state }, payload) {
-      console.log(payload.query)
       axios
         .get(
           'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +
@@ -89,13 +71,12 @@ export default new Vuex.Store({
             '")&api-key=9J6zrwrvlHJCVne4scXFympyYEGkgmJk'
         )
         .then(response => {
-          console.log(response)
-          commit('SET_NEW_LIST_ARTICLES', response)
+          commit('SET_LIST_ARTICLES', response)
         })
     },
 
     defaultBookList({ commit, state }, payload) {
-      commit('SET_DEFAULT_LIST', payload.data.results.books)
+      commit('SET_LIST', payload)
     },
 
     choosenBookList({ commit, state }, payload) {

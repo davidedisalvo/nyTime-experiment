@@ -1,6 +1,6 @@
 <template>
   <div class="article">
-    <v-jumbotron color="#222222" dark height="600px" class="jumbotron">
+    <v-responsive color="#222222" dark height="600px" class="jumbotron">
       <v-container fill-height>
         <v-layout align-center class="container">
           <v-flex v-if="!showSearch" text-xs-center class="jumbotron-container">
@@ -46,7 +46,7 @@
           </transition>
         </v-layout>
       </v-container>
-    </v-jumbotron>
+    </v-responsive>
 
     <v-layout row wrap class="container-grid">
       <v-flex
