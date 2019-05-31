@@ -44,7 +44,12 @@
         <v-card height="100%">
           <v-alert :value="true" color="orange" class="rank">{{item.rank}}</v-alert>
           <v-img contain :src="item.book_image" aspect-ratio=".75"/>
-          <v-icon medium @click="choosenBook(item, $event)" class="save">{{output}}</v-icon>
+          <v-icon
+            medium
+            :class="books[index] && books[index].clicked ? 'fas' : 'far'"
+            @click="chosenBook(item, index, $event)"
+            class="save"
+          >{{output}}</v-icon>
           <v-card-title primary-title>
             <div class="card-body-container">
               <h3 class="headline mb-0">{{item.author}}</h3>
@@ -67,6 +72,7 @@
 </template>
 
 <script>
+  import Vue from "vue";
   import axios from "axios";
   import helloWorld from "../components/HelloWorld.vue";
   import { TweenMax } from "greensock";
@@ -77,7 +83,7 @@
 
     data() {
       return {
-        books: [],
+        books: {},
         gradient: "to top, rgb(34, 32, 34), rgb(140, 133, 142)",
         showCalendar: false,
         changeLayout: false,
@@ -93,8 +99,8 @@
         .then(response => {
           this.$store.dispatch("defaultBookList", response);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          console.log("error fetching books");
         });
       this.animate();
     },
@@ -107,21 +113,19 @@
           ease: Sine.easeIn
         });
       },
-      choosenBook(item, { target }) {
-        let choosenBooks = {
+      chosenBook(item, id, { target }) {
+        let chosenBook = {
           author: item.author,
           link: item.amazon_product_url,
           title: item.title,
-          status: "clicked"
+          // if we have a book at that id, toggle it to be opposite of what it is now,
+          // otherwise first click is setting to clicked
+          clicked: this.books[id] ? !this.books[id].clicked : true
         };
-        if (target.classList.contains("far")) {
-          target.classList.remove("far");
-          target.classList.add("fas");
-        } else {
-          target.classList.remove("fas");
-          target.classList.add("far");
-        }
-        this.$store.commit("SET_CHOOSEN_BOOK_LIST", choosenBooks);
+        // check reactivity in Vue and why this is needed
+        Vue.set(this.books, id, chosenBook);
+
+        // this.$store.commit("SET_CHOOSEN_BOOK_LIST", chosenBook); // not needed, keep local state local
       }
     },
 
