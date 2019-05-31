@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import Books from './views/Books.vue'
 import BookList from './components/BookList.vue'
 
-
 Vue.use(Router)
 
 export default new Router({
@@ -25,9 +24,10 @@ export default new Router({
       path: '/articles',
       name: 'articles',
       // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
+      // this generates a separate chunk ([name].[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/Articles.vue')
+      component: () =>
+        import(/* webpackChunkName: "Articles" */ './views/Articles.vue')
     }
   ]
 })

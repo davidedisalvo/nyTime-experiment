@@ -7,21 +7,21 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "core-js": "^2.6.5",
+    "axios": "^0.19.0",
     "greensock": "^1.20.2",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.3",
+    "vue-router": "^3.0.6",
     "vuetify": "^1.5.14",
-    "vuex": "^3.0.1"
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.1.1",
-    "@vue/cli-service": "^3.1.1",
-    "node-sass": "^4.9.0",
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-service": "^3.8.0",
+    "core-js": "2",
+    "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.6.10"
   },
   "postcss": {
     "plugins": {
