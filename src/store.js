@@ -33,8 +33,11 @@ export default new Vuex.Store({
 
     SET_CHOOSEN_BOOK_LIST(state, payload) {
       // const { length } = state.bookList
-      const found = state.bookList.some(el => el.link === payload.link)
-      if (!found) state.bookList.push(payload)
+      const found = state.bookList.findIndex(el => el.link === payload.link)
+      if (found > -1) {
+        const newBooks = state.bookList.slice(found, 1)
+        state.bookList = newBooks
+      } else state.bookList.push(payload)
       return state.bookList
     },
 

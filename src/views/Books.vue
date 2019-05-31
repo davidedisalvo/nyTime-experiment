@@ -114,11 +114,14 @@
           title: item.title,
           status: "clicked"
         };
-
-        console.log(event.target);
-        target.classList.remove("far");
-        target.classList.add("fas");
-        this.$store.dispatch("choosenBookList", choosenBooks);
+        if (target.classList.contains("far")) {
+          target.classList.remove("far");
+          target.classList.add("fas");
+        } else {
+          target.classList.remove("fas");
+          target.classList.add("far");
+        }
+        this.$store.commit("SET_CHOOSEN_BOOK_LIST", choosenBooks);
       }
     },
 
