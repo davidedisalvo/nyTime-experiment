@@ -10,7 +10,7 @@
           </v-toolbar>
 
           <v-list two-line>
-            <template v-for="(item, index) in showingBooks">
+            <template v-for="(item, index) in Object.values(showingBooks)">
               <v-divider :key="index" :inset="item.inset"></v-divider>
 
               <v-list-tile :key="item.title" avatar>
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-  import axios from "axios";
   export default {
     computed: {
       showingBooks() {

@@ -33,15 +33,11 @@
                       label="Outline style"
                       outline
                       attach
-                    ></v-select>
+                    />
                   </v-flex>
                 </v-layout>
               </v-container>
-              <v-btn
-                @click="gettingArticles()"
-                color="orange darken-2"
-                v-if="showButton"
-              >Find articles</v-btn>
+              <v-btn @click="getArticles()" color="orange darken-2" v-if="showButton">Find articles</v-btn>
             </v-flex>
           </transition>
         </v-layout>
@@ -68,7 +64,7 @@
             </div>
           </v-card-title>
           <div class="extra-info">
-            <p class="filter">{{ item.pub_date | moment }}</p>
+            <p class="filter">{{ item.pub_date | date }}</p>
             <p>{{item.byline.original}}</p>
           </div>
           <v-card-actions>
@@ -78,13 +74,15 @@
           </v-card-actions>
         </v-card>
       </v-flex>
+      <v-flex xs12 sm6 lg4 class="grid-item" v-if="searched && showArticles.length === 0">
+        <p>Sorry, no articles found.</p>
+      </v-flex>
     </v-layout>
   </div>
 </template>
 
 <script>
-  import axios from "axios";
-  import moment from "moment";
+  import dayjs from "dayjs";
   export default {
     data() {
       return {
@@ -100,16 +98,18 @@
         ],
         query: "",
         selection: "",
-        showSearch: false
+        showSearch: false,
+        searched: false
       };
     },
     methods: {
-      gettingArticles() {
+      getArticles() {
         let filter = {
           query: this.query,
           selections: this.selection
         };
         this.$store.dispatch("getting_articles", filter);
+        this.searched = true;
       }
     },
 
@@ -125,26 +125,9 @@
       }
     },
 
-    updated() {
-      const findClass = document.getElementsByClassName("card-body-container");
-      let tallest = 0;
-      // Loop over matching divs
-      for (let i = 0; i < findClass.length; i++) {
-        const element = findClass[i];
-        const elementHeight = element.offsetHeight;
-        tallest =
-          elementHeight > tallest
-            ? elementHeight
-            : tallest; /* look up ternary operator if you dont know what this is */
-      }
-      for (i = 0; i < findClass.length; i++) {
-        findClass[i].style.height = tallest + "px";
-      }
-    },
-
     filters: {
-      moment: function(date) {
-        return moment(date).format("MMMM Do YYYY, h:mm:ss a");
+      date: function(date) {
+        return dayjs(date).format("MMMM D YYYY, h:mm:ss a");
       }
     }
   };

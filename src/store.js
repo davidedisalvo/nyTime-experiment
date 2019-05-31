@@ -11,6 +11,10 @@ export default new Vuex.Store({
     bookList: []
   },
   mutations: {
+    SET_BOOKLIST(state, books) {
+      state.bookList = books
+    },
+
     SET_LIST(state, payload) {
       let value = payload.data.results.books
 
@@ -29,23 +33,6 @@ export default new Vuex.Store({
         state.articles = []
         state.articles.push(...value)
       }
-    },
-
-    SET_CHOOSEN_BOOK_LIST(state, payload) {
-      // const { length } = state.bookList
-      const found = state.bookList.findIndex(el => el.link === payload.link)
-      if (found > -1) {
-        const newBooks = state.bookList.slice(found, 1)
-        state.bookList = newBooks
-      } else state.bookList.push(payload)
-      return state.bookList
-    },
-
-    removeChoosenBookList(state, payload) {
-      // const { length } = state.bookList
-      const found = state.bookList.some(el => el.link === payload.link)
-      if (found) state.bookList.slice(payload)
-      return state.bookList
     }
   },
   actions: {
@@ -77,10 +64,6 @@ export default new Vuex.Store({
 
     defaultBookList({ commit, state }, payload) {
       commit('SET_LIST', payload)
-    },
-
-    choosenBookList({ commit, state }, payload) {
-      commit('SET_CHOOSEN_BOOK_LIST', payload)
     }
   }
 })
