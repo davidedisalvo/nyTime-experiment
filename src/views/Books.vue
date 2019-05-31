@@ -15,7 +15,7 @@
 
           <transition name="slide-left">
             <v-flex text-xs-center v-if="showCalendar" class="calendar">
-              <helloWorld></helloWorld>
+              <date-picker/>
             </v-flex>
           </transition>
           <div class="change-layout">
@@ -74,12 +74,12 @@
 <script>
   import Vue from "vue";
   import axios from "axios";
-  import helloWorld from "../components/HelloWorld.vue";
+  import DatePicker from "../components/DatePicker.vue";
   import { TweenMax } from "greensock";
 
   export default {
     name: "home",
-    components: { helloWorld },
+    components: { DatePicker },
 
     data() {
       return {
@@ -122,10 +122,12 @@
           // otherwise first click is setting to clicked
           clicked: this.books[id] ? !this.books[id].clicked : true
         };
-        // check reactivity in Vue and why this is needed
-        Vue.set(this.books, id, chosenBook);
-
-        // this.$store.commit("SET_CHOOSEN_BOOK_LIST", chosenBook); // not needed, keep local state local
+        if (!chosenBook.clicked) {
+          // check reactivity in Vue and why this is needed https://vuejs.org/v2/guide/reactivity.html
+          Vue.delete(this.books, id);
+        } else Vue.set(this.books, id, chosenBook);
+        // save to booklist
+        this.$store.commit("SET_BOOKLIST", this.books);
       }
     },
 

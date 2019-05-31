@@ -1,20 +1,17 @@
 <template>
   <div>
-    <div>
-      <v-date-picker
-        v-model="picker"
-        reactive="reactive"
-        landscape
-        color="orange"
-        @click="getDate()"
-      ></v-date-picker>
-    </div>
+    <v-date-picker
+      v-model="picker"
+      reactive="reactive"
+      landscape
+      color="orange"
+      @click="getDate()"
+    />
     <v-btn color="orange" @click="getList">Search</v-btn>
   </div>
 </template>
 
 <script>
-  import axios from "axios";
   export default {
     data: () => ({
       picker: new Date().toISOString().substr(0, 10),

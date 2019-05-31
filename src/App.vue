@@ -3,7 +3,7 @@
     <v-toolbar fixed>
       <v-toolbar-title>
         <v-btn flat>
-          <router-link to="/bookList">Book list: {{$store.state.bookList.length}}</router-link>
+          <router-link to="/bookList">Book list: {{Object.keys($store.state.bookList).length}}</router-link>
         </v-btn>
       </v-toolbar-title>
       <v-spacer></v-spacer>

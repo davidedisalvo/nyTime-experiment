@@ -33,7 +33,7 @@
                       label="Outline style"
                       outline
                       attach
-                    ></v-select>
+                    />
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -83,7 +83,6 @@
 </template>
 
 <script>
-  import axios from "axios";
   import moment from "moment";
   export default {
     data() {
