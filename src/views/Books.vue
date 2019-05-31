@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <v-jumbotron color="#222222" dark height="600px" class="jumbotron">
+    <v-responsive color="#222222" dark height="600px" class="jumbotron">
       <v-container fill-height>
         <v-layout align-center class="container">
           <transition name="fade">
@@ -29,7 +29,7 @@
           </div>
         </v-layout>
       </v-container>
-    </v-jumbotron>
+    </v-responsive>
 
     <v-layout row wrap class="container-grid">
       <v-flex
@@ -91,25 +91,7 @@
           "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=9J6zrwrvlHJCVne4scXFympyYEGkgmJk"
         )
         .then(response => {
-          let value = response;
-          this.$store.dispatch("defaultBookList", value);
-        })
-        .then(() => {
-          const findClass = document.getElementsByClassName(
-            "card-body-container"
-          );
-          let tallest = 0;
-          for (let i = 0; i < findClass.length; i++) {
-            const element = findClass[i];
-            const eleHeight = element.offsetHeight;
-            tallest =
-              eleHeight > tallest
-                ? eleHeight
-                : tallest; /* look up ternary operator if you dont know what this is */
-          }
-          for (i = 0; i < findClass.length; i++) {
-            findClass[i].style.height = tallest + "px";
-          }
+          this.$store.dispatch("defaultBookList", response);
         })
         .catch(error => {
           console.log(error);
