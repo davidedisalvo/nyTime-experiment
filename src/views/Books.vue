@@ -113,11 +113,14 @@
         });
       },
       chosenBook(item, { target }) {
+        // make a copy of the vuex state
         const bookList = { ...this.bookList };
         if (bookList && bookList[item.primary_isbn10]) {
+          // if there's a book in favorites, delete it and update vuex
           delete bookList[item.primary_isbn10];
           this.$store.commit("SET_BOOKLIST", bookList);
         } else {
+          // else no book, so add it
           bookList[item.primary_isbn10] = item;
           this.$store.commit("SET_BOOKLIST", bookList);
         }
