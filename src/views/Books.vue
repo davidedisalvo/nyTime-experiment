@@ -83,7 +83,7 @@
 
     data() {
       return {
-        books: {},
+        books: [],
         gradient: "to top, rgb(34, 32, 34), rgb(140, 133, 142)",
         showCalendar: false,
         changeLayout: false,
@@ -118,16 +118,37 @@
           author: item.author,
           link: item.amazon_product_url,
           title: item.title,
-          // if we have a book at that id, toggle it to be opposite of what it is now,
-          // otherwise first click is setting to clicked
-          clicked: this.books[id] ? !this.books[id].clicked : true
+          id: item.primary_isbn10,
         };
-        if (!chosenBook.clicked) {
-          // check reactivity in Vue and why this is needed https://vuejs.org/v2/guide/reactivity.html
-          Vue.delete(this.books, id);
-        } else Vue.set(this.books, id, chosenBook);
-        // save to booklist
-        this.$store.commit("SET_BOOKLIST", this.books);
+        console.log(this.books.length)
+        if(this.books.length < 1) {
+          console.log('empty')
+          Vue.set(this.books, id, chosenBook);
+
+        } else {
+          for(let i = 0; i < this.books.length; i++) {
+            console.log(item.primary_isbn10)
+            if (this.books[i].id == item.primary_isbn10) {
+              Vue.delete(this.books, i, chosenBook);
+              console.log('equal')
+            } else {
+              console.log('not equal')
+              Vue.set(this.books, i, chosenBook);
+              // this.books[i].push(item)
+            }
+
+          }
+        }
+                    this.$store.commit("SET_BOOKLIST", this.books);
+
+        
+
+      //   if (!chosenBook.clicked) {
+      //     // check reactivity in Vue and why this is needed https://vuejs.org/v2/guide/reactivity.html
+      //     Vue.delete(this.books, id);
+      //   } else Vue.set(this.books, id, chosenBook);
+      //   // save to booklist
+      //   this.$store.commit("SET_BOOKLIST", this.books);
       }
     },
 

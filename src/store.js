@@ -44,6 +44,7 @@ export default new Vuex.Store({
             '/hardcover-fiction.json?api-key=9J6zrwrvlHJCVne4scXFympyYEGkgmJk'
         )
         .then(response => {
+          console.log(response)
           commit('SET_LIST', response)
         })
     },
