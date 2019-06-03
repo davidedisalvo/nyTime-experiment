@@ -46,8 +46,8 @@
           <v-img contain :src="item.book_image" aspect-ratio=".75"/>
           <v-icon
             medium
-            :class="books[index] && books[index].clicked ? 'fas' : 'far'"
-            @click="chosenBook(item, index, $event)"
+            :class="books && books[item.primary_isbn10] ? 'fas' : 'far'"
+            @click="chosenBook(item, $event)"
             class="save"
           >{{output}}</v-icon>
           <v-card-title primary-title>
@@ -83,7 +83,7 @@
 
     data() {
       return {
-        books: [],
+        books: {},
         gradient: "to top, rgb(34, 32, 34), rgb(140, 133, 142)",
         showCalendar: false,
         changeLayout: false,
@@ -113,42 +113,13 @@
           ease: Sine.easeIn
         });
       },
-      chosenBook(item, id, { target }) {
-        let chosenBook = {
-          author: item.author,
-          link: item.amazon_product_url,
-          title: item.title,
-          id: item.primary_isbn10,
-        };
-        console.log(this.books.length)
-        if(this.books.length < 1) {
-          console.log('empty')
-          Vue.set(this.books, id, chosenBook);
-
+      chosenBook(item, { target }) {
+        if (this.books && this.books[item.primary_isbn10]) {
+          Vue.delete(this.books, [item.primary_isbn10]);
         } else {
-          for(let i = 0; i < this.books.length; i++) {
-            console.log(item.primary_isbn10)
-            if (this.books[i].id == item.primary_isbn10) {
-              Vue.delete(this.books, i, chosenBook);
-              console.log('equal')
-            } else {
-              console.log('not equal')
-              Vue.set(this.books, i, chosenBook);
-              // this.books[i].push(item)
-            }
-
-          }
+          Vue.set(this.books, [item.primary_isbn10], item);
         }
-                    this.$store.commit("SET_BOOKLIST", this.books);
-
-        
-
-      //   if (!chosenBook.clicked) {
-      //     // check reactivity in Vue and why this is needed https://vuejs.org/v2/guide/reactivity.html
-      //     Vue.delete(this.books, id);
-      //   } else Vue.set(this.books, id, chosenBook);
-      //   // save to booklist
-      //   this.$store.commit("SET_BOOKLIST", this.books);
+        this.$store.commit("SET_BOOKLIST", this.books);
       }
     },
 
