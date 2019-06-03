@@ -46,7 +46,7 @@
           <v-img contain :src="item.book_image" aspect-ratio=".75"/>
           <v-icon
             medium
-            :class="books && books[item.primary_isbn10] ? 'fas' : 'far'"
+            :class="bookList && bookList[item.primary_isbn10] ? 'fas' : 'far'"
             @click="chosenBook(item, $event)"
             class="save"
           >{{output}}</v-icon>
@@ -83,7 +83,6 @@
 
     data() {
       return {
-        books: {},
         gradient: "to top, rgb(34, 32, 34), rgb(140, 133, 142)",
         showCalendar: false,
         changeLayout: false,
@@ -114,18 +113,27 @@
         });
       },
       chosenBook(item, { target }) {
-        if (this.books && this.books[item.primary_isbn10]) {
-          Vue.delete(this.books, [item.primary_isbn10]);
+        // make a copy of the vuex state
+        const bookList = { ...this.bookList };
+        if (bookList && bookList[item.primary_isbn10]) {
+          // if there's a book in favorites, delete it and update vuex
+          delete bookList[item.primary_isbn10];
+          this.$store.commit("SET_BOOKLIST", bookList);
         } else {
-          Vue.set(this.books, [item.primary_isbn10], item);
+          // else no book, so add it
+          bookList[item.primary_isbn10] = item;
+          this.$store.commit("SET_BOOKLIST", bookList);
         }
-        this.$store.commit("SET_BOOKLIST", this.books);
       }
     },
 
     computed: {
       showBooks() {
         return this.$store.state.books;
+      },
+
+      bookList() {
+        return this.$store.state.bookList;
       },
 
       fourColumns() {
