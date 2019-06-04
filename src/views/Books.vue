@@ -14,7 +14,7 @@
           </transition>
 
           <transition name="slide-left">
-            <v-flex text-xs-center v-if="showCalendar" class="calendar">
+            <v-flex text-xs-center xs12 v-if="showCalendar" class="calendar">
               <date-picker/>
             </v-flex>
           </transition>
@@ -266,6 +266,16 @@
   }
   .likeClass {
     border: 1px solid red;
+  }
+
+  @media only screen and (max-width: 599px) {
+    .container {
+      padding: 0;
+    }
+
+    .calendar {
+      margin-top: 60px;
+    }
   }
 </style>
 

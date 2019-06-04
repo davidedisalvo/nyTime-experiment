@@ -8,11 +8,17 @@ export default new Vuex.Store({
   state: {
     books: [],
     articles: [],
-    bookList: []
+    bookList: [],
+    articleList: [],
+    dataError: ''
   },
   mutations: {
     SET_BOOKLIST(state, books) {
       state.bookList = books
+    },
+
+    SET_ARTICLELIST(state, articles) {
+      state.articleList = articles
     },
 
     SET_LIST(state, payload) {
@@ -22,6 +28,7 @@ export default new Vuex.Store({
         state.books.push(...value)
       } else {
         state.books = [...value]
+        
       }
     },
 
@@ -60,6 +67,7 @@ export default new Vuex.Store({
         )
         .then(response => {
           commit('SET_LIST_ARTICLES', response)
+          console.log(response)
         })
     },
 

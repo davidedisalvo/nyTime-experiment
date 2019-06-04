@@ -4,27 +4,28 @@
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-toolbar color="orange" dark>
-            <h3>My books</h3>
+            <h3>My Articles</h3>
 
             <v-spacer></v-spacer>
           </v-toolbar>
 
           <v-list two-line>
-            <template v-for="(item, index) in Object.values(showingBooks)">
+            <template v-for="(item, index) in Object.values(showingArticles)">
               <v-divider :key="index" :inset="item.inset"></v-divider>
 
               <v-list-tile :key="item.title" avatar>
                 <v-list-tile-content>
-                  <v-list-tile-title  v-html="item.title"></v-list-tile-title>
-                  <v-list-tile-sub-title v-html="item.author"></v-list-tile-sub-title>
+                  <v-list-tile-title v-html="item.headline.main"></v-list-tile-title>
+                  <v-list-tile-sub-title v-html="item.byline.original"></v-list-tile-sub-title>
 
                   <!-- <v-btn><a :href="item.link">Buy it now</a></v-btn> -->
                 </v-list-tile-content>
                 <v-card-actions>
-                  <a :href="item.link" target="_blank">
-                    <v-btn flat color="orange">Buy now</v-btn>
+                  <a :href="item.web_url" target="_blank">
+                    <v-btn flat color="orange">Read the article</v-btn>
                   </a>
-                  <v-icon @click="deleteBook(item)" small>fas fa-times-circle</v-icon>
+                                    <v-icon @click="deleteArticle(item)" small>fas fa-times-circle</v-icon>
+
                 </v-card-actions>
               </v-list-tile>
             </template>
@@ -37,18 +38,18 @@
 
 <script>
   export default {
-    computed: {
-      showingBooks() {
-        return this.$store.state.bookList;
+
+    methods: {
+      deleteArticle(item) {
+        const articleList = { ...this.showingArticles };
+          delete articleList[item._id];
+          this.$store.commit("SET_ARTICLELIST", articleList, );
+
       }
     },
-    methods: {
-      deleteBook(item) {
-        const bookList = { ...this.showingBooks };
-        console.log(bookList)
-          delete bookList[item.primary_isbn10];
-          this.$store.commit("SET_BOOKLIST", bookList, );
-
+    computed: {
+      showingArticles() {
+        return this.$store.state.articleList;
       }
     }
   };

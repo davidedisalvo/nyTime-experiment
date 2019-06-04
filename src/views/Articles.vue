@@ -1,9 +1,12 @@
 <template>
   <div class="article">
-    <v-responsive color="#222222" dark height="600px" class="jumbotron">
+    <v-responsive color="#222222" dark height="90vh" class="jumbotron">
+
       <v-container fill-height>
+
         <v-layout align-center class="container">
           <v-flex v-if="!showSearch" text-xs-center class="jumbotron-container">
+
             <h3 v-if="!showSearch" class="display-3">NYT Articles</h3>
             <v-btn v-if="!showSearch" @click="showSearch = true" color="orange darken-2" dark>
               Search your article
@@ -13,16 +16,21 @@
 
           <transition name="slide-left">
             <v-flex text-xs-center v-if="showSearch" class="Search">
+            <h1 class="mb-4 main-title">Search an article in NYT archive</h1>
+
               <v-form>
                 <v-container>
                   <v-layout row wrap justify-center>
+
                     <v-flex xs12 sm6 md12>
+
                       <v-text-field v-model="query" label="Type your subject" outline></v-text-field>
                     </v-flex>
                   </v-layout>
                 </v-container>
               </v-form>
               <v-container fluid grid-list-xl>
+
                 <h3>Filter by category</h3>
                 <v-layout row wrap justify-center align-center>
                   <v-flex xs12 sm6 md12 d-flex>
@@ -66,11 +74,17 @@
           <div class="extra-info">
             <p class="filter">{{ item.pub_date | date }}</p>
             <p>{{item.byline.original}}</p>
+
           </div>
-          <v-card-actions>
+          <v-card-actions class="button-card">
             <a :href="item.web_url" target="_blank">
               <v-btn flat color="orange">Read the article</v-btn>
             </a>
+            <v-icon
+            medium
+            @click="chosenArticle(item, $event)"
+            :class="articleList && articleList[item._id] ? 'fas' : 'far'"
+          >{{output}}</v-icon>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -99,7 +113,8 @@
         query: "",
         selection: "",
         showSearch: false,
-        searched: false
+        searched: false,
+        output: "far fa-star"
       };
     },
     methods: {
@@ -110,12 +125,30 @@
         };
         this.$store.dispatch("getting_articles", filter);
         this.searched = true;
+      },
+      chosenArticle(item, { target }) {
+        // make a copy of the vuex state
+        const articleList = { ...this.articleList };
+        if (articleList && articleList[item._id]) {
+          // if there's a book in favorites, delete it and update vuex
+          delete articleList[item._id];
+          this.$store.commit("SET_ARTICLELIST", articleList);
+        } else {
+          // else no book, so add it
+          articleList[item._id] = item;
+          this.$store.commit("SET_ARTICLELIST", articleList);
+        }
       }
     },
 
     computed: {
       showArticles() {
         return this.$store.state.articles;
+      },
+
+      articleList() {
+        return this.$store.state.articleList;
+
       },
 
       showButton() {
@@ -143,6 +176,17 @@
     padding: 20px;
     background-color: lightgray;
     border-top: 7px solid gray;
+  }
+
+  .button-card {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    .v-icon::before {
+      color: orange;
+      cursor: pointer;
+    }
+
   }
 
   .grid-item {
@@ -182,6 +226,12 @@
   .slide-left-leave-active {
     animation: slide-out-left 1s ease-out forwards;
   }
+  .Search {
+    .main-title {
+      font-size: 40px;
+    }
+  }
+
 
   @keyframes slide-in-left {
     from {
