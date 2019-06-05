@@ -21,7 +21,7 @@
                   <!-- <v-btn><a :href="item.link">Buy it now</a></v-btn> -->
                 </v-list-tile-content>
                 <v-card-actions>
-                  <a :href="item.link" target="_blank">
+                  <a :href="item.amazon_product_url" target="_blank">
                     <v-btn flat color="orange">Buy now</v-btn>
                   </a>
                   <v-icon @click="deleteBook(item)" small>fas fa-times-circle</v-icon>
