@@ -38,7 +38,7 @@
         :lg4="!changeLayout"
         :lg3="changeLayout"
         :key="`${item.book_image}${index}`"
-        v-for="(item, index) in showBooks"
+        v-for="(item, index) in books"
         class="grid-item"
       >
         <v-card height="100%">
@@ -128,7 +128,7 @@
     },
 
     computed: {
-      showBooks() {
+      books() {
         return this.$store.state.books;
       },
 
